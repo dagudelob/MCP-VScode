@@ -1,0 +1,46 @@
+$npm install -g pnpm  # para crear el entorno del proyecto: 
+
+if Error:
+    open powershell as ADMIN:
+    $ Set-ExecutionPolicy RemoteSigned 
+    $ Y # para activar permisos 
+
+$pnpm add @modelcontextprotocol/sdk
+$pnpm add zod
+
+$echo 
+import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import {z} from "zod";
+
+//create server 
+const server = new McpServer({
+    name: "Demo Server",
+    version: "1.0.0",
+})
+
+//crear herramientas 
+//las herramientas permiten al LLM realizar acciones a través del API de la herramienta
+
+server.tool(
+'fetch-wearther',
+'tool to fetch weather information for a given city',
+{
+    city: z.string().describe("City name"),
+}
+    async({city}) => {
+        return {
+        content: [
+            {
+                type: "text",
+                text: `The weather in ${city} is sunny with a temperature of 25 degrees Celsius.`
+            }
+        ]
+    }
+)
+
+//3. escuchar las conexiones del cliente
+const transport =  new StdioServerTransport()
+await server.connect(transport)
+>main.ts
+
