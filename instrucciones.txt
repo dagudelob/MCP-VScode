@@ -44,3 +44,7 @@ const transport =  new StdioServerTransport()
 await server.connect(transport)
 >main.ts
 
+//4 . configuración de inspector: 
+$ npx -y @modelcontextprotocol/inspector npx -y tsx main.ts 
+<Navegador> 
+http://127.0.0.1:6274/#resources 
