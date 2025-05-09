@@ -9,10 +9,10 @@ importers:
   .:
     dependencies:
       '@modelcontextprotocol/sdk':
-        specifier: ^1.11.0
+        specifier: 1.11.0
         version: 1.11.0
       zod:
-        specifier: ^3.24.4
+        specifier: 3.24.4
         version: 3.24.4
 
 packages:

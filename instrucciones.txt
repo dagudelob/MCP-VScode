@@ -8,10 +8,9 @@ if Error:
 $pnpm add @modelcontextprotocol/sdk
 $pnpm add zod
 
-$echo 
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import {z} from "zod";
+$echo import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+echo import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+echo import {z} from "zod";
 
 //create server 
 const server = new McpServer({
