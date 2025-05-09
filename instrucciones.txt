@@ -8,35 +8,49 @@ if Error:
 $pnpm add @modelcontextprotocol/sdk
 $pnpm add zod
 
-$echo import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-echo import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-echo import {z} from "zod";
+$ echo main.ts
+
+""" 
+mport { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import {z} from "zod";//zod es una libreria para validar los tipos de datos
 
 //create server 
 const server = new McpServer({
-    name: "Demo Server",
+    name: "Demo",
     version: "1.0.0",
+    //port: 3000,
+    //host: "localhost",
 })
 
-//crear herramientas 
+//2. Definir las herramientas que el LLM puede usar 
 //las herramientas permiten al LLM realizar acciones a través del API de la herramienta
 
 server.tool(
-'fetch-wearther',
-'tool to fetch weather information for a given city',
-{
-    city: z.string().describe("City name"),
-}
-    async({city}) => {
-        return {
-        content: [
-            {
-                type: "text",
-                text: `The weather in ${city} is sunny with a temperature of 25 degrees Celsius.`
-            }
-        ]
+    'fetch-weather', // titulo de la herramienta
+    'Tool to fetch weather information for a given city', // descripcion de la herramienta
+    {
+        city: z.string().describe("City name"), // parametro de entrada de la herramienta, zod es una libreria para validar los tipos de datos
+    },
+    async({city}) => { // esto es lo que tenemos que hacer en la herramienta
+        // aqui va la logica de la herramienta
+        // en este caso, simulamos la respuesta de la API del clima
+        // en un caso real, hariamos una llamada a la API del clima
+        const weather = {
+            city: city,
+            temperature: 25,
+            condition: "sunny"
+        }
+        return {content: [{type: "json", json: weather}]}
     }
 )
+
+//3. escuchar las conexiones del cliente
+const transport =  new StdioServerTransport()
+await server.connect(transport)
+
+
+"""
 
 //3. escuchar las conexiones del cliente
 const transport =  new StdioServerTransport()
